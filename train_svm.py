@@ -87,18 +87,6 @@ def list2pic(pl, img):
     return mask * 255
 
 
-def clustter_sample(all_foreground_pixels, clustter_pred, max_pixel_num):
-    dist_on_clustter = np.bincount(clustter_pred) / len(all_foreground_pixels)
-    per_class_num = [int(max_pixel_num * p) for p in dist_on_clustter.tolist()]
-    sampled_foreground_pixels = list()
-    afp = np.array(all_foreground_pixels)
-    for k in range(len(per_class_num)):
-        class_pixels = afp[np.where(clustter_pred == k)]
-        class_pixels = class_pixels.tolist()
-        sampled_foreground_pixels += class_pixels[:per_class_num[k]]
-    return sampled_foreground_pixels
-
-
 def train(train_path, mode_save=False):
     train_pic_names = os.listdir(train_path)
 
@@ -112,7 +100,6 @@ def train(train_path, mode_save=False):
     random.shuffle(all_foreground_pixels)
 
     max_pixel_num = 1000
-
     if len(all_foreground_pixels) >= max_pixel_num:
         sampled_foreground_pixels = random.sample(all_foreground_pixels, max_pixel_num)
 
