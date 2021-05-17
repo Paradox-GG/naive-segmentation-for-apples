@@ -1,0 +1,5 @@
+numpy
+sklearn
+joblib
+cv2
+matplotlib
